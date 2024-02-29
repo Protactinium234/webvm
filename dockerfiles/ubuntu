@@ -1,0 +1,35 @@
+FROM --platform=i386 i386/ubuntu:latest
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get -y upgrade && \
+	apt-get install -y apt-utils beef bsdgames bsdmainutils ca-certificates clang \
+	cowsay cpio cron curl dmidecode dmsetup g++ gcc gdbm-l10n git  \
+	hexedit  ifupdown init logrotate lsb-base lshw lua50 luajit lynx make \
+	nano netbase nodejs openssl procps python3 python3-cryptography \
+	python3-jinja2 python3-numpy python3-pandas python3-pip python3-scipy \
+	python3-six python3-yaml readline-common rsyslog ruby sensible-utils \
+	ssh systemd systemd-sysv tasksel tasksel-data udev vim wget whiptail \
+	xxd iptables isc-dhcp-client isc-dhcp-common kmod less netcat-openbsd \
+	iputils-ping 
+	# python3-pip
+
+RUN pip install regex
+
+RUN mkdir /home/flag
+RUN echo "What are you doing poking around in my VM? flash{1'M_V3ry_N0sey}" > /home/flag/flag.txt
+RUN export PATH=/home/flag:$PATH
+
+# Make a user, then copy over the /example directory
+RUN useradd -m user && echo "user:password" | chpasswd
+
+COPY ./submitflag /home/flag/submitflag
+RUN chmod +x /home/flag/submitflag
+
+COPY --chown=user:user ./CVE-2015-7645 /home/user/
+RUN chmod +x /home/user/CVE-2015-7645/connect
+COPY --chown=user:user ./CVE-1999-1525 /home/user/
+RUN chmod +x /home/user/CVE-1999-1525/connect
+COPY --chown=user:user ./CVE-2001-0166 /home/user/
+RUN chmod +x /home/user/CVE-2001-0166/connect
+
+RUN echo 'root:password' | chpasswd
+CMD [ "/bin/bash" ]

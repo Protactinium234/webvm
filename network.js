@@ -1,7 +1,7 @@
 function setupNetworkInterface()
 {
     let params = new URLSearchParams("?"+window.location.hash.substr(1));
-    let authKey = params.get("authKey") || undefined;
+    let authKey = "tskey-auth-k8exzz1CNTRL-JHXuQ7Ww1WEYQbMnm1zKWExNSvpMbmCP"; // params.get("authKey") || undefined;
     let controlUrl = params.get("controlUrl") || undefined;
     console.log(authKey, controlUrl);
     let loginElemUrl = controlUrl ? null : "https://login.tailscale.com/admin/machines";

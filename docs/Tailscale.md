@@ -1,4 +1,4 @@
-# Enable networking
+lp# Enable networking
 
 - In order to access the public internet, you will need an Exit Node. See [Tailscale Exit Nodes](https://tailscale.com/kb/1103/exit-nodes/) for detailed instructions.
 	- ***Note:*** This is not required to access machines in your own Tailscale Network.
