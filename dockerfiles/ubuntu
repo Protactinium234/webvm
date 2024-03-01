@@ -18,7 +18,7 @@ RUN apt-get update && apt-get -y upgrade && \
 	patch wamerican ucf manpages \
 	file luajit make lua50 dialog curl \
 	less cowsay netcat-openbsd\
-	iputils-ping python3-pip
+	iputils-ping python3-pip nano vim
 
 RUN python3 -m pip install --no-cache-dir --upgrade pip && \
     python3 -m pip install --no-cache-dir regex
