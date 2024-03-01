@@ -9,10 +9,10 @@ RUN apt-get update && apt-get -y upgrade && \
 	python3-six python3-yaml readline-common rsyslog ruby sensible-utils \
 	ssh systemd systemd-sysv tasksel tasksel-data udev vim wget whiptail \
 	xxd iptables isc-dhcp-client isc-dhcp-common kmod less netcat-openbsd \
-	iputils-ping 
-	# python3-pip
+	iputils-ping python3-pip
 
-RUN pip install regex
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir regex
 
 RUN mkdir /home/flag
 RUN echo "What are you doing poking around in my VM? flash{1'M_V3ry_N0sey}" > /home/flag/flag.txt
