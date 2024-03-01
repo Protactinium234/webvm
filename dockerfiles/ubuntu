@@ -21,7 +21,7 @@ RUN export PATH=/home/flag:$PATH
 # Make a user, then copy over the /example directory
 RUN useradd -m user && echo "user:password" | chpasswd
 
-COPY ./submitflag /home/flag/submitflag
+COPY ./flag/submitflag /home/flag/submitflag
 RUN chmod +x /home/flag/submitflag
 
 COPY --chown=user:user ./CVE-2015-7645 /home/user/

@@ -1,0 +1,61 @@
+#!/bin/env python3
+
+#TODO: replace ./flag with /home/flag and localhost with IP/Domain Name
+try:
+    PATH = "/home/flag/"
+
+    import socket, os, sys, regex as re
+
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    try:
+        client_socket.connect(('localhost', 8001))
+    except ConnectionRefusedError:
+        print("Server seems to be down :(")
+        sys.exit()
+
+    if "uid" in os.listdir(PATH):
+        with open(PATH + 'uid', 'r', encoding='utf-8') as f:
+            uid = f.read()
+    else:
+        uid = None
+
+    if len(sys.argv) == 1 or sys.argv[1] in ['--help','-h','help']:
+        print("Usage: submitflag (signup / signin / leaderboard / [FLAG])")
+        quit()
+
+    data = client_socket.recv(2048)
+    if sys.argv[1] in ["signin","signup","leaderboard"] or sys.argv[1][:4] == "CVE-":
+        print(sys.argv[1])
+        client_socket.send(bytes(sys.argv[1], 'utf-8') + b"\n")
+    else:
+        client_socket.send(b"flag " + bytes(uid,'utf-8') + b" " + bytes(sys.argv[1], 'utf-8') + b"\n")
+
+    while True:
+        send = False
+        close = False
+        data = client_socket.recv(2048)
+        # print(data)
+
+        if b"<c>" in data:
+            if b"<c>uid:" in data:
+                uid = re.search(rb"(?<=<c>uid:).*?(?=</c>)", data).group().decode()
+                with open(PATH + 'uid', 'w', encoding='utf-8') as f:
+                    f.write(uid)
+
+            if b"<c>give</c>" in data:
+                send = True
+
+            if b"<c>close</c>" in data:
+                close = True
+            
+            data = re.sub(rb"<c>.*</c>", b"", data)
+
+        print(data.decode(),end='')
+        if send:
+            client_socket.send(bytes(input(),'utf-8') + b'\n')
+        if close:
+            client_socket.close()
+            break
+except KeyboardInterrupt:
+    sys.exit()
