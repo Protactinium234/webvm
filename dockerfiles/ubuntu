@@ -35,13 +35,22 @@ RUN chmod +x /home/flag/submitflag
 COPY --chown=user:user ./CVE-2015-7645 /home/user/CVE-2015-7645
 RUN chmod +x /home/user/CVE-2015-7645/connect
 
+COPY --chown=user:user ./CVE-2009-0658 /home/user/CVE-2009-0658
+RUN chmod +x /home/user/CVE-2009-0658/connect
+
+COPY --chown=user:user ./CVE-2016-4171 /home/user/CVE-2016-4171
+RUN chmod +x /home/user/CVE-2016-4171/connect
+
+COPY --chown=user:user ./CVE-2018-15981 /home/user/CVE-2018-15981
+RUN chmod +x /home/user/CVE-2018-15981/connect
+
 COPY --chown=user:user ./CVE-1999-1525 /home/user/CVE-1999-1525
 RUN chmod +x /home/user/CVE-1999-1525/connect
 
 COPY --chown=user:user ./CVE-2001-0166 /home/user/CVE-2001-0166
 RUN chmod +x /home/user/CVE-2001-0166/connect
 
-ENV PATH="${PATH}:/home/flag"
+RUN export PATH=/home/flag:$PATH
 
 RUN echo 'root:password' | chpasswd
 CMD [ "/bin/bash" ]
